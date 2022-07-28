@@ -65,3 +65,17 @@ resource "aws_lambda_permission" "writePermission" {
   ]
 
 }
+
+resource "aws_iam_role" "writeRole" {
+  name = "myWriteRole"
+
+  assume_role_policy = file("./roles/assume_write_role_policy.json")
+
+}
+
+resource "aws_iam_role_policy" "write_policy" {
+  name = "lambda_write_policy"
+  role = aws_iam_role.writeRole.id
+
+  policy = file("./roles/write_policy.json")
+}
